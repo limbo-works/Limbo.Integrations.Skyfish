@@ -2,6 +2,7 @@
 using Limbo.Integrations.Skyfish.Models;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Http;
+using Skybrud.Essentials.Http.Client;
 using Skybrud.Essentials.Json.Extensions;
 using System;
 using System.Runtime.Caching;
@@ -10,7 +11,7 @@ using System.Text;
 using System.Threading;
 
 namespace Limbo.Integrations.Skyfish.Http {
-    public class SkyfishHttpClient {
+    public class SkyfishHttpClient : HttpClient {
         public string ApiKey { get; }
         public string SecretKey { get; }
         public string Username { get; }
@@ -107,23 +108,26 @@ namespace Limbo.Integrations.Skyfish.Http {
         }
 
         private SkyfishVideo GetSkyfishVideoData(int videoId) {
-            var req = HttpRequest.Get($"https://api.colourbox.com/search?media_id={videoId}&return_values=unique_media_id+height+width+title+description+thumbnail_url+thumbnail_url_ssl+filename+file_disksize+file_mimetype");
-            req.Headers.Authorization = $"CBX-SIMPLE-TOKEN Token={_token}";
-            var result = req.GetResponse();
-
-            return SkyfishVideo.Parse(JObject.Parse(result.Body));
+            var response = Get($"/search?media_id={videoId}&return_values=unique_media_id+height+width+title+description+thumbnail_url+thumbnail_url_ssl+filename+file_disksize+file_mimetype");
+            return SkyfishVideo.Parse(JObject.Parse(response.Body));
         }
 
         private void CreateSkyfishStream(int videoId) {
-            var req = HttpRequest.Post($"https://api.colourbox.com/media/{videoId}/stream");
-            req.Headers.Authorization = $"CBX-SIMPLE-TOKEN Token={_token}";
-            req.GetResponse();
+            Post($"/media/{videoId}/stream");
         }
 
         private IHttpResponse GetSkyfishVideo(int videoId) {
-            var req = HttpRequest.Get($"https://api.colourbox.com/media/{videoId}/metadata/stream_url");
-            req.Headers.Authorization = $"CBX-SIMPLE-TOKEN Token={_token}";
-            return req.GetResponse();
+            return Get($"/media/{videoId}/metadata/stream_url");
+        }
+
+        protected override void PrepareHttpRequest(IHttpRequest request) {
+
+            // Append the scheme and domain of not already present
+            if (request.Url.StartsWith("/")) request.Url = $"https://api.colourbox.com{request.Url}";
+
+            // Set the "Authorization" header if the token is present
+            if (!string.IsNullOrWhiteSpace(_token)) request.Authorization = $"CBX-SIMPLE-TOKEN Token={_token}";
+
         }
     }
 }
