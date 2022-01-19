@@ -37,18 +37,18 @@ namespace Limbo.Integrations.Skyfish.Models {
         /// <summary>
         /// Gets the video's SSL thumbnail URL.
         /// </summary>
-        public string ThumbnailUrlSSL { get; }
+        public string ThumbnailUrlSsl { get; }
 
         /// <summary>
         /// Gets the original file name of the video file.
         /// </summary>
-        public string Filename { get; }
+        public string FileName { get; }
 
         /// <summary>
         /// Gets the video filesize in bytes.
         /// This is the upload size, may differ from download size as they do some compression.
         /// </summary>
-        public int Filesize { get; }
+        public int FileSize { get; }
 
         /// <summary>
         /// Get file mime type.
@@ -67,9 +67,9 @@ namespace Limbo.Integrations.Skyfish.Models {
             VideoTitle = obj.GetString("response.media[0].title");
             VideoDescription = obj.GetString("response.media[0].description");
             ThumbnailUrl = obj.GetString("response.media[0].thumbnail_url");
-            ThumbnailUrlSSL = obj.GetString("response.media[0].thumbnail_url_ssl");
-            Filename = obj.GetString("response.media[0].filename");
-            Filesize = obj.GetInt32("response.media[0].file_disksize");
+            ThumbnailUrlSsl = obj.GetString("response.media[0].thumbnail_url_ssl");
+            FileName = obj.GetString("response.media[0].filename");
+            FileSize = obj.GetInt32("response.media[0].file_disksize");
             FileMimeType = obj.GetString("response.media[0].file_mimetype");
         }
 
