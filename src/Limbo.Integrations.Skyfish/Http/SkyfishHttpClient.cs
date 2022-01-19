@@ -1,13 +1,13 @@
-﻿using Limbo.Integrations.Skyfish.Extensions;
-using Limbo.Integrations.Skyfish.Models;
+﻿using Limbo.Integrations.Skyfish.Models;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Http.Client;
+using Skybrud.Essentials.Json;
 using Skybrud.Essentials.Json.Extensions;
+using Skybrud.Essentials.Security;
+using Skybrud.Essentials.Time.UnixTime;
 using System;
 using System.Runtime.Caching;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading;
 
 namespace Limbo.Integrations.Skyfish.Http {
@@ -36,14 +36,8 @@ namespace Limbo.Integrations.Skyfish.Http {
 
             if (string.IsNullOrWhiteSpace(token)) {
                 // Hmac hash needed for authing with Skyfish - https://api.skyfish.com/#sectionHead-21
-                int unixTimestamp = (int) (DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
-                string hmac = "";
-                var keyByte = Encoding.UTF8.GetBytes(SecretKey);
-                using (var hmacsha1 = new HMACSHA1(keyByte)) {
-                    hmacsha1.ComputeHash(Encoding.UTF8.GetBytes($"{ApiKey}:{unixTimestamp}"));
-
-                    hmac += StringExtensions.ByteToString(hmacsha1.Hash);
-                }
+                int unixTimestamp = (int) UnixTimeUtils.CurrentSeconds;
+                string hmac = SecurityUtils.GetHmacSha1Hash(SecretKey, $"{ApiKey}:{unixTimestamp}");
 
                 JObject body = new JObject {
                     ["username"] = Username,
@@ -109,7 +103,7 @@ namespace Limbo.Integrations.Skyfish.Http {
 
         private SkyfishVideo GetSkyfishVideoData(int videoId) {
             var response = Get($"/search?media_id={videoId}&return_values=unique_media_id+height+width+title+description+thumbnail_url+thumbnail_url_ssl+filename+file_disksize+file_mimetype");
-            return SkyfishVideo.Parse(JObject.Parse(response.Body));
+            return JsonUtils.ParseJsonObject(response.Body, SkyfishVideo.Parse);
         }
 
         private void CreateSkyfishStream(int videoId) {
