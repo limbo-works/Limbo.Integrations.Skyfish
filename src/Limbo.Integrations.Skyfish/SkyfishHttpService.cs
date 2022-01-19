@@ -4,7 +4,7 @@ using System;
 
 namespace Limbo.Integrations.Skyfish {
     public class SkyfishHttpService {
-        public SkyfishHttpClient Client { get; set; }
+        public SkyfishHttpClient Client { get; }
 
         private SkyfishHttpService(SkyfishHttpClient client) {
             Client = client;

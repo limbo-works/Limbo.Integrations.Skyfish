@@ -11,10 +11,10 @@ using System.Threading;
 
 namespace Limbo.Integrations.Skyfish.Http {
     public class SkyfishHttpClient {
-        public string ApiKey { get; set; }
-        public string SecretKey { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
+        public string ApiKey { get; }
+        public string SecretKey { get; }
+        public string Username { get; }
+        public string Password { get; }
         private readonly string _token;
 
         public SkyfishHttpClient() { }
