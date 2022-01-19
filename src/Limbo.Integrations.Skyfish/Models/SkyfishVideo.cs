@@ -2,10 +2,8 @@
 using Skybrud.Essentials.Json;
 using Skybrud.Essentials.Json.Extensions;
 
-namespace Limbo.Integrations.Skyfish.Models
-{
-    public class SkyfishVideo : JsonObjectBase
-    {
+namespace Limbo.Integrations.Skyfish.Models {
+    public class SkyfishVideo : JsonObjectBase {
         /// <summary>
         /// Gets the numeric ID of the video.
         /// </summary>
@@ -62,8 +60,7 @@ namespace Limbo.Integrations.Skyfish.Models
         /// </summary>
         public string EmbedUrl { get; set; }
 
-        protected SkyfishVideo(JObject obj) : base(obj)
-        {
+        protected SkyfishVideo(JObject obj) : base(obj) {
             VideoId = obj.GetInt32("response.media[0].unique_media_id");
             Height = obj.GetInt32("response.media[0].height");
             Width = obj.GetInt32("response.media[0].width");
@@ -76,8 +73,7 @@ namespace Limbo.Integrations.Skyfish.Models
             FileMimeType = obj.GetString("response.media[0].file_mimetype");
         }
 
-        public static SkyfishVideo Parse(JObject obj)
-        {
+        public static SkyfishVideo Parse(JObject obj) {
             return obj == null ? null : new SkyfishVideo(obj);
         }
     }
