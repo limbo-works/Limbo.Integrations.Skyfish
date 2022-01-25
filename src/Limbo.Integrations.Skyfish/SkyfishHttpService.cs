@@ -1,6 +1,6 @@
-﻿using Limbo.Integrations.Skyfish.Http;
+﻿using System;
+using Limbo.Integrations.Skyfish.Http;
 using Limbo.Integrations.Skyfish.Models;
-using System;
 
 namespace Limbo.Integrations.Skyfish {
     public class SkyfishHttpService {

@@ -1,4 +1,7 @@
-﻿using Limbo.Integrations.Skyfish.Models;
+﻿using System;
+using System.Runtime.Caching;
+using System.Threading;
+using Limbo.Integrations.Skyfish.Models;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Http.Client;
@@ -6,16 +9,19 @@ using Skybrud.Essentials.Json;
 using Skybrud.Essentials.Json.Extensions;
 using Skybrud.Essentials.Security;
 using Skybrud.Essentials.Time.UnixTime;
-using System;
-using System.Runtime.Caching;
-using System.Threading;
 
 namespace Limbo.Integrations.Skyfish.Http {
+
     public class SkyfishHttpClient : HttpClient {
+
         public string ApiKey { get; }
+
         public string SecretKey { get; }
+
         public string Username { get; }
+
         public string Password { get; }
+
         private readonly string _token;
 
         public SkyfishHttpClient() { }
@@ -30,6 +36,7 @@ namespace Limbo.Integrations.Skyfish.Http {
         }
 
         private string GetToken() {
+
             // Default token expiration is 14 days, so instead of requesting each time we cache it and get it from cache
             ObjectCache cache = MemoryCache.Default;
             string token = cache["skyfishToken"] as string;
@@ -123,5 +130,7 @@ namespace Limbo.Integrations.Skyfish.Http {
             if (!string.IsNullOrWhiteSpace(_token)) request.Authorization = $"CBX-SIMPLE-TOKEN Token={_token}";
 
         }
+
     }
+
 }

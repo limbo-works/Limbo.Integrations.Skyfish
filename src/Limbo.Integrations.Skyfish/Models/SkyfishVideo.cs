@@ -4,6 +4,7 @@ using Skybrud.Essentials.Json.Extensions;
 
 namespace Limbo.Integrations.Skyfish.Models {
     public class SkyfishVideo : JsonObjectBase {
+
         /// <summary>
         /// Gets the numeric ID of the video.
         /// </summary>
@@ -76,5 +77,7 @@ namespace Limbo.Integrations.Skyfish.Models {
         public static SkyfishVideo Parse(JObject obj) {
             return obj == null ? null : new SkyfishVideo(obj);
         }
+
     }
+
 }
