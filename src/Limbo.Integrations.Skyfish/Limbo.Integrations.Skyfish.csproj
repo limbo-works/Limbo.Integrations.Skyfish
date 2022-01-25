@@ -1,19 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <LangVersion>9.0</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
     <Version>1.0.0</Version>
-    <Authors>Jesper Mayntzhusen</Authors>
     <Company>Limbo</Company>
     <Product>Limbo.Integrations</Product>
+    <Authors>Jesper Mayntzhusen</Authors>
     <Copyright>Copyright © 2022</Copyright>
   </PropertyGroup>
 
+  <!-- Information for the NuGet package -->
   <PropertyGroup>
-    <PackageId>Limbo.Integrations.Skyfish</PackageId>
     <PackageTags>Limbo, Skybrud, API, Skyfish</PackageTags>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/limbo-works/Limbo.Integrations.Skyfish</PackageProjectUrl>
@@ -22,23 +23,21 @@
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Integrations.Skyfish</RepositoryUrl>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\Limbo.Integrations.Skyfish.xml</DocumentationFile>
-  </PropertyGroup>
-
+  <!-- Include NuGet dependencies -->
   <ItemGroup>
     <PackageReference Include="Skybrud.Essentials" Version="1.1.35" />
     <PackageReference Include="Skybrud.Essentials.Http" Version="1.0.15" />
+    <PackageReference Include="System.Runtime.Caching" Version="6.0.0" />
   </ItemGroup>
 
+  <!-- Include package icon for NuGet -->
   <ItemGroup>
-    <None Include="../build/Limbo.png" Pack="true" PackagePath="\" />
+    <Content Include="../build/Limbo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="System.Runtime.Caching">
-      <HintPath>..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.Runtime.Caching.dll</HintPath>
-    </Reference>
-  </ItemGroup>
+  
+  <!-- Generate XML documentation -->
+  <PropertyGroup>
+    <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
 
 </Project>
