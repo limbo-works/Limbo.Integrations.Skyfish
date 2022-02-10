@@ -14,6 +14,10 @@ namespace Limbo.Integrations.Skyfish {
             return Client.GetVideo(id);
         }
 
+        public string GetThumbnailUrl(int id) {
+            return Client.GetThumbnailUrl(id);
+        }
+
         public static SkyfishHttpService CreateFromKeys(string publicKey, string secretKey, string username, string password) {
             if (string.IsNullOrWhiteSpace(publicKey)) throw new ArgumentNullException(nameof(publicKey));
             if (string.IsNullOrWhiteSpace(secretKey)) throw new ArgumentNullException(nameof(secretKey));

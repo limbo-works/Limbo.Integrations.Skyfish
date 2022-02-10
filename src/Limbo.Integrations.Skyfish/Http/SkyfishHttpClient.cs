@@ -69,6 +69,10 @@ namespace Limbo.Integrations.Skyfish.Http {
             return token;
         }
 
+        public string GetThumbnailUrl(int videoId) {
+            return GetVideoThumbnail(videoId);
+        }
+
         public SkyfishVideo GetVideo(int videoId) {
             SkyfishVideo video = GetSkyfishVideoData(videoId);
             var videoStream = GetSkyfishVideo(video.VideoId);
@@ -111,6 +115,12 @@ namespace Limbo.Integrations.Skyfish.Http {
         private SkyfishVideo GetSkyfishVideoData(int videoId) {
             var response = Get($"/search?media_id={videoId}&return_values=unique_media_id+height+width+title+description+thumbnail_url+thumbnail_url_ssl+filename+file_disksize+file_mimetype");
             return JsonUtils.ParseJsonObject(response.Body, SkyfishVideo.Parse);
+        }
+
+        private string GetVideoThumbnail(int videoId) {
+            var response = Get($"/search?unique_media_id={videoId}&return_values=unique_media_id+height+width+title+description+thumbnail_url+thumbnail_url_ssl+filename+file_disksize+file_mimetype");
+            SkyfishVideo video = JsonUtils.ParseJsonObject(response.Body, SkyfishVideo.Parse);
+            return video.ThumbnailUrlSsl;
         }
 
         private void CreateSkyfishStream(int videoId) {
