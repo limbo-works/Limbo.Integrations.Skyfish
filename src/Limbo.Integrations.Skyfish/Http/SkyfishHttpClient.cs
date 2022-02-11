@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.Caching;
 using System.Threading;
+using Limbo.Integrations.Skyfish.Endpoints;
 using Limbo.Integrations.Skyfish.Models;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Http;
@@ -22,15 +23,22 @@ namespace Limbo.Integrations.Skyfish.Http {
 
         public string Password { get; }
 
+        public SkyfishSearchRawEndpoint Search { get; }
+
         private readonly string _token;
 
-        public SkyfishHttpClient() { }
+        public SkyfishHttpClient() {
+            Search = new SkyfishSearchRawEndpoint(this);
+        }
 
         public SkyfishHttpClient(string apikey, string secretkey, string username, string password) {
+            
             ApiKey = apikey;
             SecretKey = secretkey;
             Username = username;
             Password = password;
+            
+            Search = new SkyfishSearchRawEndpoint(this);
 
             _token = GetToken();
         }

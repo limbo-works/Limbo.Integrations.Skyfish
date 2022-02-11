@@ -1,4 +1,5 @@
 ﻿using System;
+using Limbo.Integrations.Skyfish.Endpoints;
 using Limbo.Integrations.Skyfish.Http;
 using Limbo.Integrations.Skyfish.Models;
 
@@ -6,8 +7,11 @@ namespace Limbo.Integrations.Skyfish {
     public class SkyfishHttpService {
         public SkyfishHttpClient Client { get; }
 
+        public SkyfishSearchEndpoint Search { get; }
+
         private SkyfishHttpService(SkyfishHttpClient client) {
             Client = client;
+            Search = new SkyfishSearchEndpoint(this);
         }
 
         public SkyfishVideo GetVideo(int id) {
