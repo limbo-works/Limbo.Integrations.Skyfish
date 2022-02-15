@@ -52,7 +52,8 @@ namespace Limbo.Integrations.Skyfish.Options.Videos {
                 "description",
                 "thumbnail_url",
                 "thumbnail_url_ssl",
-                "filename+file_disksize",
+                "filename",
+                "file_disksize",
                 "file_mimetype"
             };
 
