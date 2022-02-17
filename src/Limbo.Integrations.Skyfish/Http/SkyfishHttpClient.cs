@@ -6,7 +6,6 @@ using Limbo.Integrations.Skyfish.Models;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Http.Client;
-using Skybrud.Essentials.Json;
 using Skybrud.Essentials.Json.Extensions;
 using Skybrud.Essentials.Security;
 using Skybrud.Essentials.Time.UnixTime;
@@ -77,55 +76,55 @@ namespace Limbo.Integrations.Skyfish.Http {
             return token;
         }
 
-        public SkyfishVideo GetVideo(int videoId) {
-            SkyfishVideo video = GetSkyfishVideoData(videoId);
-            var videoStream = GetSkyfishVideo(video.VideoId);
+        public string GetEmbedUrl(int uniqueMediaId) {
+
+            IHttpResponse videoStreamUrl = GetSkyfishVideoStream(uniqueMediaId);
+            string response = "";
 
             // if stream doesn't exist we generate it
-            if (videoStream.StatusCode != System.Net.HttpStatusCode.OK) {
-                CreateSkyfishStream(video.VideoId);
+            if (videoStreamUrl.StatusCode != System.Net.HttpStatusCode.OK) {
+                CreateSkyfishStream(uniqueMediaId);
 
-                // wait 1 sec then check if it's ready
                 Thread.Sleep(1000);
-                video = GetVideo(video);
-            } else {
-                video.EmbedUrl = "https://player.skyfish.com/?v=" + JObject.Parse(videoStream.Body).GetString("Stream") + "&media=" + video.VideoId;
+
+                // Call this method again
+                GetEmbedUrl(uniqueMediaId);
+            } else if (string.IsNullOrWhiteSpace(JObject.Parse(videoStreamUrl.Body).GetString("Stream"))) {
+                // for some reason they only return 404 if it's not currently generating, so any subsequent requests to see if its ready we need to parse the json body to see if it has the stream link 
+
+                response = GetEmbedUrlWithRetries(uniqueMediaId, 0);                
             }
 
-            return video;
+            return response;
         }
+        
+        private string GetEmbedUrlWithRetries(int uniqueMediaId, int count) {
+            IHttpResponse videoStream = GetSkyfishVideoStream(uniqueMediaId);
 
-        private SkyfishVideo GetVideo(SkyfishVideo video) {
-            var videoStream = GetSkyfishVideo(video.VideoId);
+            // Exit condition? Only retry for 2 mins.
+            if (count >= 120) return null;
 
-            if (videoStream.StatusCode != System.Net.HttpStatusCode.OK) {
-                // if not ready yet, we wait 1s then query again - normally quite fast
+            string response;
+
+            if (string.IsNullOrWhiteSpace(JObject.Parse(videoStream.Body).GetString("Stream"))) {
+                // for some reason they only return 404 if it's not currently generating, so any subsequent requests to see if its ready we need to parse the json body to see if it has the stream link 
+
                 Thread.Sleep(1000);
-                video = GetVideo(video);
+                count++;
+
+                response = GetEmbedUrlWithRetries(uniqueMediaId, count);
             } else {
-                // for some reason they only return 404 if it's not currently generating, so any subsequent requests to see if its ready we need to parse the json body to see if it has the stream link
-                if (string.IsNullOrWhiteSpace(JObject.Parse(videoStream.Body).GetString("Stream"))) {
-                    // if not ready yet, we wait 1s then query again - normally quite fast
-                    Thread.Sleep(1000);
-                    video = GetVideo(video);
-                } else {
-                    video.EmbedUrl = "https://player.skyfish.com/?v=" + JObject.Parse(videoStream.Body).GetString("Stream") + "&media=" + video.VideoId;
-                }
+                response = "https://player.skyfish.com/?v=" + JObject.Parse(videoStream.Body).GetString("Stream") + "&media=" + uniqueMediaId;
             }
 
-            return video;
+            return response;
         }
 
-        private SkyfishVideo GetSkyfishVideoData(int videoId) {
-            var response = Get($"/search?media_id={videoId}&return_values=unique_media_id+height+width+title+description+thumbnail_url+thumbnail_url_ssl+filename+file_disksize+file_mimetype");
-            return JsonUtils.ParseJsonObject(response.Body, SkyfishVideo.Parse);
+        private void CreateSkyfishStream(int uniqueMediaId) {
+            Post($"/media/{uniqueMediaId}/stream");
         }
 
-        private void CreateSkyfishStream(int videoId) {
-            Post($"/media/{videoId}/stream");
-        }
-
-        private IHttpResponse GetSkyfishVideo(int videoId) {
+        private IHttpResponse GetSkyfishVideoStream(int videoId) {
             return Get($"/media/{videoId}/metadata/stream_url");
         }
 

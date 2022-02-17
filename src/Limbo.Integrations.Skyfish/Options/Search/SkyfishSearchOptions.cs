@@ -74,8 +74,11 @@ namespace Limbo.Integrations.Skyfish.Options.Videos {
             // Append optional parameters if specified
             if (MediaId > 0) query.Add("media_id", MediaId);
             if (UniqueMediaId > 0) query.Add("unique_media_id", UniqueMediaId);
-            if (ReturnValues != null && ReturnValues.Count > 0) query.Add("return_values", string.Join("+", query));
-            if (MediaTypes != null && MediaTypes.Count > 0) query.Add("media_type", string.Join("+", from type in MediaTypes select type.ToUnderscore()));
+
+            // The documentation says to split the values with +, but the API doesn't support URL encoded + chars
+            // Instead we can split by space and it turns into ASCII + chars ¯\(º_o)/¯
+            if (ReturnValues != null && ReturnValues.Count > 0) query.Add("return_values", string.Join(" ", ReturnValues));
+            if (MediaTypes != null && MediaTypes.Count > 0) query.Add("media_type", string.Join(" ", from type in MediaTypes select type.ToUnderscore()));
 
             // Initialize a new GET request
             return HttpRequest.Get("/search", query);

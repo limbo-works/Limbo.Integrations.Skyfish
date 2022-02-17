@@ -48,6 +48,10 @@ namespace Limbo.Integrations.Skyfish {
 
         }
 
+        public string GetEmbedUrlByUniqueMediaId(int uniqueMediaId) {
+            return Service.GetEmbedUrl(uniqueMediaId);
+        }
+
         #endregion
 
     }
