@@ -93,6 +93,8 @@ namespace Limbo.Integrations.Skyfish.Http {
                 // for some reason they only return 404 if it's not currently generating, so any subsequent requests to see if its ready we need to parse the json body to see if it has the stream link 
 
                 response = GetEmbedUrlWithRetries(uniqueMediaId, 0);                
+            } else {
+                response = "https://player.skyfish.com/?v=" + JObject.Parse(videoStreamUrl.Body).GetString("Stream") + "&media=" + uniqueMediaId;
             }
 
             return response;
