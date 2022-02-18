@@ -1,17 +1,20 @@
 ﻿using System;
+using Limbo.Integrations.Skyfish.Endpoints;
 using Limbo.Integrations.Skyfish.Http;
-using Limbo.Integrations.Skyfish.Models;
 
 namespace Limbo.Integrations.Skyfish {
     public class SkyfishHttpService {
         public SkyfishHttpClient Client { get; }
 
+        public SkyfishSearchEndpoint Search { get; }
+
         private SkyfishHttpService(SkyfishHttpClient client) {
             Client = client;
+            Search = new SkyfishSearchEndpoint(this);
         }
 
-        public SkyfishVideo GetVideo(int id) {
-            return Client.GetVideo(id);
+        public string GetEmbedUrl(int uniqueMediaId) {
+            return Client.GetEmbedUrl(uniqueMediaId);
         }
 
         public static SkyfishHttpService CreateFromKeys(string publicKey, string secretKey, string username, string password) {
