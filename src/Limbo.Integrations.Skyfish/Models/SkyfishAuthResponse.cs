@@ -10,8 +10,8 @@ namespace Limbo.Integrations.Skyfish.Models {
         public string Token { get; }
 
         public SkyfishAuthResponse(JObject obj) {
-            ValidUntilUnix = long.Parse(obj.GetString("validUntil"));
-            Token = obj.GetString("token");
+            ValidUntilUnix = long.Parse(obj.GetString("validUntil")!);
+            Token = obj.GetString("token")!;
         }
 
     }

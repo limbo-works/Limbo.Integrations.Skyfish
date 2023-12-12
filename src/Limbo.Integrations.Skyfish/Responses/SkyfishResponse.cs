@@ -29,7 +29,7 @@ namespace Limbo.Integrations.Skyfish.Responses {
         /// <summary>
         /// /// Gets the body of the response.
         /// </summary>
-        public T Body { get; protected set; }
+        public T Body { get; protected set; } = default!;
 
         /// <summary>
         /// Initializes a new instance based on the specified <paramref name="response"/>.

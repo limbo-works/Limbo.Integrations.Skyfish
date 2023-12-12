@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Limbo.Integrations.Skyfish.Models.Media;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json;
-using Skybrud.Essentials.Json.Extensions;
+using Skybrud.Essentials.Json.Newtonsoft;
+using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Integrations.Skyfish.Models.Search {
 
@@ -13,11 +14,12 @@ namespace Limbo.Integrations.Skyfish.Models.Search {
         public IReadOnlyList<SkyfishMediaItem> Media { get; }
 
         private SkyfishSearchResult(JObject json) : base(json) {
-            Hits = json.GetInt32("response.hits");
-            Media = json.GetArrayItems("response.media", SkyfishMediaItem.Parse);
+            Hits = json.GetInt32ByPath("response.hits");
+            Media = json.GetArrayItemsByPath("response.media", SkyfishMediaItem.Parse);
         }
 
-        public static SkyfishSearchResult Parse(JObject json) {
+        [return: NotNullIfNotNull("json")]
+        public static SkyfishSearchResult? Parse(JObject? json) {
             return json == null ? null : new SkyfishSearchResult(json);
         }
 

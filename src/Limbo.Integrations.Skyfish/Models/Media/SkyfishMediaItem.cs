@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
@@ -53,7 +54,8 @@ namespace Limbo.Integrations.Skyfish.Models.Media {
             FileMimeType = json.GetString("file_mimetype");
         }
 
-        public static SkyfishMediaItem Parse(JObject json) {
+        [return: NotNullIfNotNull("json")]
+        public static SkyfishMediaItem? Parse(JObject? json) {
             return json == null ? null : new SkyfishMediaItem(json);
         }
 

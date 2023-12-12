@@ -13,7 +13,7 @@ namespace Limbo.Integrations.Skyfish {
             Search = new SkyfishSearchEndpoint(this);
         }
 
-        public string GetEmbedUrl(int uniqueMediaId) {
+        public string? GetEmbedUrl(int uniqueMediaId) {
             return Client.GetEmbedUrl(uniqueMediaId);
         }
 
