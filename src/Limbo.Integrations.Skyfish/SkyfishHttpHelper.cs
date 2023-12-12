@@ -4,6 +4,8 @@ using Limbo.Integrations.Skyfish.Models.Media;
 using Limbo.Integrations.Skyfish.Options.Search;
 using Limbo.Integrations.Skyfish.Responses.Search;
 
+#pragma warning disable CS1591
+
 namespace Limbo.Integrations.Skyfish {
 
     public class SkyfishHttpHelper {
