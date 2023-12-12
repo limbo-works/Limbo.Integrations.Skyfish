@@ -6,7 +6,7 @@ using Skybrud.Essentials.Http.Collections;
 using Skybrud.Essentials.Http.Options;
 using Skybrud.Essentials.Strings.Extensions;
 
-namespace Limbo.Integrations.Skyfish.Options.Videos {
+namespace Limbo.Integrations.Skyfish.Options.Search {
 
     /// <summary>
     /// Class with options for getting a list of videos.

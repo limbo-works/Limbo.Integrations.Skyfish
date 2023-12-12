@@ -1,4 +1,4 @@
-﻿using Limbo.Integrations.Skyfish.Options.Videos;
+﻿using Limbo.Integrations.Skyfish.Options.Search;
 using Limbo.Integrations.Skyfish.Responses.Search;
 
 namespace Limbo.Integrations.Skyfish.Endpoints {
