@@ -1,16 +1,18 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <LangVersion>9.0</LangVersion>
+    <LangVersion>11.0</LangVersion>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
-    <Version>1.0.0-beta003</Version>
+    <VersionPrefix>1.0.0-beta003</VersionPrefix>
+    <VersionSuffix Condition="'$(Configuration)'=='Debug'">build$([System.DateTime]::UtcNow.ToString(`yyyyMMddHHmm`))</VersionSuffix>
     <Company>Limbo</Company>
     <Product>Limbo.Integrations</Product>
-    <Authors>Jesper Mayntzhusen</Authors>
-    <Copyright>Copyright © 2022</Copyright>
+    <Authors>Anders Bjerner, Jesper Mayntzhusen</Authors>
+    <Copyright>Copyright © $([System.DateTime]::UtcNow.ToString(`yyyy`))</Copyright>
+    <Description>.NET implementation and API wrapper for the Skyfish API.</Description>
   </PropertyGroup>
 
   <!-- Information for the NuGet package -->
@@ -34,7 +36,7 @@
   <ItemGroup>
     <Content Include="../build/Limbo.png" Pack="true" PackagePath="\" />
   </ItemGroup>
-  
+
   <!-- Generate XML documentation -->
   <PropertyGroup>
     <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
