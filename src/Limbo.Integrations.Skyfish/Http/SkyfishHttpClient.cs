@@ -23,12 +23,15 @@ namespace Limbo.Integrations.Skyfish.Http {
 
         public string? Password { get; }
 
+        public SkyfishMediaRawEndpoint Media { get; }
+
         public SkyfishSearchRawEndpoint Search { get; }
 
         private readonly string? _token;
 
         public SkyfishHttpClient() {
             Search = new SkyfishSearchRawEndpoint(this);
+            Media = new SkyfishMediaRawEndpoint(this);
         }
 
         public SkyfishHttpClient(string apikey, string secretkey, string username, string password) {
@@ -39,6 +42,7 @@ namespace Limbo.Integrations.Skyfish.Http {
             Password = password;
 
             Search = new SkyfishSearchRawEndpoint(this);
+            Media = new SkyfishMediaRawEndpoint(this);
 
             _token = GetToken();
         }
