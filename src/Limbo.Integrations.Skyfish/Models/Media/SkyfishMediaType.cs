@@ -1,4 +1,6 @@
-﻿namespace Limbo.Integrations.Skyfish.Models.Media {
+﻿#pragma warning disable CS1591
+
+namespace Limbo.Integrations.Skyfish.Models.Media {
 
     /// <summary>
     /// Enum class representing the type of a SKyfish media.
