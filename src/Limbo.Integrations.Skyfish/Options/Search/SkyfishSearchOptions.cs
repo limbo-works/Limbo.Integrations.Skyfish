@@ -43,9 +43,11 @@ namespace Limbo.Integrations.Skyfish.Options.Videos {
         /// Initializes a new instance with default options.
         /// </summary>
         public SkyfishSearchOptions() {
-            
+
             ReturnValues = new List<string> {
+                "media_id",
                 "unique_media_id",
+                "media_type",
                 "height",
                 "width",
                 "title",
