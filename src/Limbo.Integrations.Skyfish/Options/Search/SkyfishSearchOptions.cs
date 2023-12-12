@@ -7,7 +7,7 @@ using Skybrud.Essentials.Http.Options;
 using Skybrud.Essentials.Strings.Extensions;
 
 namespace Limbo.Integrations.Skyfish.Options.Videos {
-    
+
     /// <summary>
     /// Class with options for getting a list of videos.
     /// </summary>
@@ -19,11 +19,21 @@ namespace Limbo.Integrations.Skyfish.Options.Videos {
         /// Gets or sets the ID of a specific media to be returned.
         /// </summary>
         public int MediaId { get; set; }
-        
+
         /// <summary>
         /// Gets or sets the unique ID of a specific media to be returned.
         /// </summary>
         public int UniqueMediaId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a list of IDs for the folder to search in.
+        /// </summary>
+        public List<int> FolderIds { get; set; } = new();
+
+        /// <summary>
+        /// Gets or sets whether the search for <see cref="FolderIds"/> should be recursive.
+        /// </summary>
+        public bool? IsRecursive { get; set; }
 
         /// <summary>
         /// Gets or sets a list of values (field) to be returned for each media.
@@ -33,7 +43,7 @@ namespace Limbo.Integrations.Skyfish.Options.Videos {
         /// <summary>
         /// Gets or sets the media types to be returned.
         /// </summary>
-        public List<SkyfishMediaType> MediaTypes { get; set; }
+        public List<SkyfishMediaType> MediaTypes { get; set; } = new();
 
         #endregion
 
@@ -59,8 +69,6 @@ namespace Limbo.Integrations.Skyfish.Options.Videos {
                 "file_mimetype"
             };
 
-            MediaTypes = new List<SkyfishMediaType>();
-
         }
 
         #endregion
@@ -69,7 +77,7 @@ namespace Limbo.Integrations.Skyfish.Options.Videos {
 
         /// <inheritdoc />
         public IHttpRequest GetRequest() {
-            
+
             // Initialize the query string
             IHttpQueryString query = new HttpQueryString();
 
@@ -77,10 +85,13 @@ namespace Limbo.Integrations.Skyfish.Options.Videos {
             if (MediaId > 0) query.Add("media_id", MediaId);
             if (UniqueMediaId > 0) query.Add("unique_media_id", UniqueMediaId);
 
+            if (FolderIds is { Count: > 0 }) query.Add("folder_ids", string.Join(" ", FolderIds));
+            if (IsRecursive is not null) query.Add("recursive", IsRecursive.Value ? "true" : "false");
+
             // The documentation says to split the values with +, but the API doesn't support URL encoded + chars
             // Instead we can split by space and it turns into ASCII + chars ¯\(º_o)/¯
-            if (ReturnValues != null && ReturnValues.Count > 0) query.Add("return_values", string.Join(" ", ReturnValues));
-            if (MediaTypes != null && MediaTypes.Count > 0) query.Add("media_type", string.Join(" ", from type in MediaTypes select type.ToUnderscore()));
+            if (ReturnValues is { Count: > 0 }) query.Add("return_values", string.Join(" ", ReturnValues));
+            if (MediaTypes is { Count: > 0 }) query.Add("media_type", string.Join(" ", from type in MediaTypes select type.ToUnderscore()));
 
             // Initialize a new GET request
             return HttpRequest.Get("/search", query);
