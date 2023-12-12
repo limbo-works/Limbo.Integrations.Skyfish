@@ -2,7 +2,7 @@
 using Limbo.Integrations.Skyfish.Responses.Search;
 
 namespace Limbo.Integrations.Skyfish.Endpoints {
-    
+
     public class SkyfishSearchEndpoint {
 
         public SkyfishHttpService Service { get; }
@@ -14,7 +14,7 @@ namespace Limbo.Integrations.Skyfish.Endpoints {
         }
 
         public SkyfishSearchResponse Search(SkyfishSearchOptions options) {
-            return new(Raw.Search(options));
+            return new SkyfishSearchResponse(Raw.Search(options));
         }
 
     }

@@ -4,7 +4,7 @@ using Limbo.Integrations.Skyfish.Options.Videos;
 using Skybrud.Essentials.Http;
 
 namespace Limbo.Integrations.Skyfish.Endpoints {
-    
+
     public class SkyfishSearchRawEndpoint {
 
         public SkyfishHttpClient Client { get; }
