@@ -7,7 +7,7 @@ Integration package with the [Skyfish API](https://api.skyfish.com/).
 Install via [NuGet](https://www.nuget.org/packages/Limbo.Integrations.Skyfish/):
 
 ```
-Install-Package Limbo.Integrations.Skyfish -Version 1.0.0-beta001
+Install-Package Limbo.Integrations.Skyfish -Version 1.0.0-beta004
 ```
 
 ## Getting started
