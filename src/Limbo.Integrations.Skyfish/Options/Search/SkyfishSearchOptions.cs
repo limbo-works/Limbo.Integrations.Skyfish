@@ -62,6 +62,7 @@ namespace Limbo.Integrations.Skyfish.Options.Search {
                 "width",
                 "title",
                 "description",
+                "folder_id",
                 "thumbnail_url",
                 "thumbnail_url_ssl",
                 "filename",

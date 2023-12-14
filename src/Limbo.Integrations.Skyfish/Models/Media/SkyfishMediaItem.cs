@@ -54,6 +54,11 @@ namespace Limbo.Integrations.Skyfish.Models.Media {
         public string? Description { get; }
 
         /// <summary>
+        /// Gets the ID of the parent folder.
+        /// </summary>
+        public int FolderId { get; }
+
+        /// <summary>
         /// Gets the thumbnail URL of the media.
         /// </summary>
         public string? ThumbnailUrl { get; }
@@ -93,6 +98,7 @@ namespace Limbo.Integrations.Skyfish.Models.Media {
             Width = json.GetInt32("width");
             Title = json.GetString("title");
             Description = json.GetString("description");
+            FolderId = json.GetInt32("folder_id");
             ThumbnailUrl = json.GetString("thumbnail_url");
             ThumbnailUrlSsl = json.GetString("thumbnail_url_ssl");
             FileName = json.GetString("filename");
