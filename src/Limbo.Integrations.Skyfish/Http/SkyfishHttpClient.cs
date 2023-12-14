@@ -42,6 +42,11 @@ namespace Limbo.Integrations.Skyfish.Http {
         public string? Token { get; set; }
 
         /// <summary>
+        /// Gets a reference to the raw <strong>Folders</strong> endpoint.
+        /// </summary>
+        public SkyfishFoldersRawEndpoint Folders { get; }
+
+        /// <summary>
         /// Gets a reference to the raw <strong>Media</strong> endpoint.
         /// </summary>
         public SkyfishMediaRawEndpoint Media { get; }
@@ -59,23 +64,17 @@ namespace Limbo.Integrations.Skyfish.Http {
         /// Initializes a new instance with default options.
         /// </summary>
         public SkyfishHttpClient() {
-
-            Search = new SkyfishSearchRawEndpoint(this);
+            Folders = new SkyfishFoldersRawEndpoint(this);
             Media = new SkyfishMediaRawEndpoint(this);
-
+            Search = new SkyfishSearchRawEndpoint(this);
         }
 
         /// <summary>
         /// Initializes a new instance based on the specified <paramref name="token"/>.
         /// </summary>
         /// <param name="token">The token for accessing the API.</param>
-        public SkyfishHttpClient(string token) {
-
+        public SkyfishHttpClient(string token) : this() {
             Token = token;
-
-            Search = new SkyfishSearchRawEndpoint(this);
-            Media = new SkyfishMediaRawEndpoint(this);
-
         }
 
         /// <summary>
@@ -85,16 +84,11 @@ namespace Limbo.Integrations.Skyfish.Http {
         /// <param name="secretKey">The secret key.</param>
         /// <param name="username">The username.</param>
         /// <param name="password">The password.</param>
-        public SkyfishHttpClient(string publicKey, string secretKey, string username, string password) {
-
+        public SkyfishHttpClient(string publicKey, string secretKey, string username, string password) : this() {
             PublicKey = publicKey;
             SecretKey = secretKey;
             Username = username;
             Password = password;
-
-            Search = new SkyfishSearchRawEndpoint(this);
-            Media = new SkyfishMediaRawEndpoint(this);
-
         }
 
         #endregion

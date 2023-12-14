@@ -24,7 +24,7 @@ namespace Limbo.Integrations.Skyfish.Exceptions {
         /// Initializes a new exception based on the specified <paramref name="response"/>.
         /// </summary>
         /// <param name="response">The instance of <see cref="IHttpResponse"/> representing the raw response.</param>
-        public SkyfishHttpException(IHttpResponse response) : base($"Invalid response received from the Skyfish API (status: {(int) response.StatusCode}") {
+        public SkyfishHttpException(IHttpResponse response) : base($"Invalid response received from the Skyfish API (status: {(int) response.StatusCode})") {
             Response = response;
         }
 

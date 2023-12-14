@@ -17,6 +17,11 @@ namespace Limbo.Integrations.Skyfish {
         public SkyfishHttpClient Client { get; }
 
         /// <summary>
+        /// Gets a reference to the <strong>Folders</strong> endpoint.
+        /// </summary>
+        public SkyfishFoldersEndpoint Folders { get; }
+
+        /// <summary>
         /// Gets a reference to the <strong>Media</strong> endpoint.
         /// </summary>
         public SkyfishMediaEndpoint Media { get; }
@@ -32,6 +37,7 @@ namespace Limbo.Integrations.Skyfish {
 
         private SkyfishHttpService(SkyfishHttpClient client) {
             Client = client;
+            Folders = new SkyfishFoldersEndpoint(this);
             Media = new SkyfishMediaEndpoint(this);
             Search = new SkyfishSearchEndpoint(this);
         }
