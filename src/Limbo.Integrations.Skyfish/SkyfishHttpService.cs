@@ -38,19 +38,6 @@ namespace Limbo.Integrations.Skyfish {
 
         #endregion
 
-        #region Member methods
-
-        /// <summary>
-        /// Returns the embed URL of the media with the specified <paramref name="uniqueMediaId"/>, or <see langword="null"/> if not successful.
-        /// </summary>
-        /// <param name="uniqueMediaId">The unique ID of the media.</param>
-        /// <returns>The embed URL.</returns>
-        public string? GetEmbedUrl(int uniqueMediaId) {
-            return Client.GetEmbedUrl(uniqueMediaId);
-        }
-
-        #endregion
-
         #region Static methods
 
         /// <summary>
