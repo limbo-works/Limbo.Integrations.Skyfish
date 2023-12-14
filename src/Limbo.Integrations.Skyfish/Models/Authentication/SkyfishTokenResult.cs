@@ -6,9 +6,9 @@ using Skybrud.Essentials.Time;
 namespace Limbo.Integrations.Skyfish.Models.Authentication {
 
     /// <summary>
-    /// Class representing the result of an authentication request.
+    /// Class representing the result of a token authentication request.
     /// </summary>
-    public class SkyfishAuthenticationResult {
+    public class SkyfishTokenResult {
 
         #region Properties
 
@@ -22,7 +22,7 @@ namespace Limbo.Integrations.Skyfish.Models.Authentication {
         /// </summary>
         public EssentialsTime ValidUntil { get; }
 
-        private SkyfishAuthenticationResult(JObject json) {
+        private SkyfishTokenResult(JObject json) {
             ValidUntil = json.GetInt64("validUntil", EssentialsTime.FromUnixTimeSeconds)!;
             Token = json.GetString("token")!;
         }
@@ -32,13 +32,13 @@ namespace Limbo.Integrations.Skyfish.Models.Authentication {
         #region Member methods
 
         /// <summary>
-        /// Initializes a new instance of <see cref="SkyfishAuthenticationResult"/> based on the specified <paramref name="json"/> object.
+        /// Initializes a new instance of <see cref="SkyfishTokenResult"/> based on the specified <paramref name="json"/> object.
         /// </summary>
         /// <param name="json">The JSON object representing the result.</param>
-        /// <returns>An instance of <see cref="SkyfishAuthenticationResult"/>.</returns>
+        /// <returns>An instance of <see cref="SkyfishTokenResult"/>.</returns>
         [return: NotNullIfNotNull("json")]
-        public static SkyfishAuthenticationResult? Parse(JObject? json) {
-            return json == null ? null : new SkyfishAuthenticationResult(json);
+        public static SkyfishTokenResult? Parse(JObject? json) {
+            return json == null ? null : new SkyfishTokenResult(json);
         }
 
         #endregion

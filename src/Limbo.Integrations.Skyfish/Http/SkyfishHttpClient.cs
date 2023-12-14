@@ -1,11 +1,9 @@
-﻿using System.Runtime.Caching;
-using Limbo.Integrations.Skyfish.Endpoints;
-using Limbo.Integrations.Skyfish.Models.Authentication;
+﻿using Limbo.Integrations.Skyfish.Endpoints;
+using Limbo.Integrations.Skyfish.Responses.Authentication;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Common;
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Http.Client;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Security;
 using Skybrud.Essentials.Time.UnixTime;
 
@@ -16,29 +14,32 @@ namespace Limbo.Integrations.Skyfish.Http {
     /// </summary>
     public class SkyfishHttpClient : HttpClient {
 
-        private readonly string? _token;
-
         #region Properties
 
         /// <summary>
-        /// Gets the public key.
+        /// Gets or sets the public key.
         /// </summary>
-        public string? PublicKey { get; }
+        public string? PublicKey { get; set; }
 
         /// <summary>
-        /// Gets the secret key.
+        /// Gets or sets the secret key.
         /// </summary>
-        public string? SecretKey { get; }
+        public string? SecretKey { get; set; }
 
         /// <summary>
-        /// Gets the username.
+        /// Gets or sets the username.
         /// </summary>
-        public string? Username { get; }
+        public string? Username { get; set; }
 
         /// <summary>
-        /// Gets the password.
+        /// Gets or sets the password.
         /// </summary>
-        public string? Password { get; }
+        public string? Password { get; set; }
+
+        /// <summary>
+        /// Gets or sets the token used for accessing the SKyfish API.
+        /// </summary>
+        public string? Token { get; set; }
 
         /// <summary>
         /// Gets a reference to the raw <strong>Media</strong> endpoint.
@@ -58,8 +59,23 @@ namespace Limbo.Integrations.Skyfish.Http {
         /// Initializes a new instance with default options.
         /// </summary>
         public SkyfishHttpClient() {
+
             Search = new SkyfishSearchRawEndpoint(this);
             Media = new SkyfishMediaRawEndpoint(this);
+
+        }
+
+        /// <summary>
+        /// Initializes a new instance based on the specified <paramref name="token"/>.
+        /// </summary>
+        /// <param name="token">The token for accessing the API.</param>
+        public SkyfishHttpClient(string token) {
+
+            Token = token;
+
+            Search = new SkyfishSearchRawEndpoint(this);
+            Media = new SkyfishMediaRawEndpoint(this);
+
         }
 
         /// <summary>
@@ -79,32 +95,29 @@ namespace Limbo.Integrations.Skyfish.Http {
             Search = new SkyfishSearchRawEndpoint(this);
             Media = new SkyfishMediaRawEndpoint(this);
 
-            _token = GetToken();
-
         }
 
         #endregion
 
         #region Member methods
 
-        private string? GetToken() {
-
-            // TODO: Should this be public?
+        /// <summary>
+        /// Returns a new token based on the <see cref="PublicKey"/>, <see cref="SecretKey"/>, <see cref="Username"/>
+        /// and <see cref="Password"/> properties.
+        /// </summary>
+        /// <returns>An instance of <see cref="SkyfishTokenResponse"/> with information about the token.</returns>
+        public SkyfishTokenResponse GetToken() {
 
             if (string.IsNullOrWhiteSpace(PublicKey)) throw new PropertyNotSetException(nameof(PublicKey));
             if (string.IsNullOrWhiteSpace(SecretKey)) throw new PropertyNotSetException(nameof(SecretKey));
             if (string.IsNullOrWhiteSpace(Username)) throw new PropertyNotSetException(nameof(Username));
             if (string.IsNullOrWhiteSpace(Password)) throw new PropertyNotSetException(nameof(Password));
 
-            // Default token expiration is 14 days, so instead of requesting each time we cache it and get it from cache
-            ObjectCache cache = MemoryCache.Default;
-            string? token = cache["skyfishToken"] as string;
-            if (!string.IsNullOrWhiteSpace(token)) return token;
-
-            // Hmac hash needed for authing with Skyfish - https://api.skyfish.com/#sectionHead-21
+            // HMAC hash needed for authing with Skyfish - https://api.skyfish.com/#sectionHead-21
             int unixTimestamp = (int) UnixTimeUtils.CurrentSeconds;
             string hmac = SecurityUtils.GetHmacSha1Hash(SecretKey!, $"{PublicKey}:{unixTimestamp}");
 
+            // Initialize the request body
             JObject body = new() {
                 ["username"] = Username,
                 ["password"] = Password,
@@ -114,14 +127,10 @@ namespace Limbo.Integrations.Skyfish.Http {
             };
 
             // Authenticate with Skyfish
-            IHttpResponse result = HttpRequest.Post("https://api.colourbox.com/authenticate/userpasshmac", body).GetResponse();
+            IHttpResponse response = HttpUtils.Requests.Post("https://api.colourbox.com/authenticate/userpasshmac", body);
 
-            // Responds with unix expiration timestamp we can use to set the token expiration in cache - and the token itself
-            SkyfishAuthenticationResult response = JsonUtils.ParseJsonObject(result.Body, SkyfishAuthenticationResult.Parse)!;
-
-            cache.Set("skyfishToken", response.Token, response.ValidUntil.DateTimeOffset);
-
-            return response.Token;
+            // Return the strongly typed response
+            return new SkyfishTokenResponse(response);
 
         }
 
@@ -132,7 +141,7 @@ namespace Limbo.Integrations.Skyfish.Http {
             if (request.Url.StartsWith("/")) request.Url = $"https://api.colourbox.com{request.Url}";
 
             // Set the "Authorization" header if the token is present
-            if (!string.IsNullOrWhiteSpace(_token)) request.Authorization = $"CBX-SIMPLE-TOKEN Token={_token}";
+            if (!string.IsNullOrWhiteSpace(Token)) request.Authorization = $"CBX-SIMPLE-TOKEN Token={Token}";
 
         }
 

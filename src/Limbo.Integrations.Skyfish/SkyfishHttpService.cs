@@ -41,6 +41,25 @@ namespace Limbo.Integrations.Skyfish {
         #region Static methods
 
         /// <summary>
+        /// Creates and returns a new instance based on the specified <paramref name="token"/>.
+        /// </summary>
+        /// <param name="token">The token for accessing the API.</param>
+        /// <returns>An instance of <see cref="SkyfishHttpService"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="token"/> is null, empty or white space.</exception>
+        public static SkyfishHttpService CreateFromKeys(string token) {
+
+            // Input validation
+            if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
+
+            // Initialize a new HTTP client
+            SkyfishHttpClient client = new(token);
+
+            // Return a new HTTP service wrapping the client
+            return new SkyfishHttpService(client);
+
+        }
+
+        /// <summary>
         /// Creates and returns a new instance based on the specified <paramref name="publicKey"/>, <paramref name="secretKey"/>, <paramref name="username"/> and <paramref name="password"/>.
         /// </summary>
         /// <param name="publicKey">The public key.</param>
@@ -50,11 +69,38 @@ namespace Limbo.Integrations.Skyfish {
         /// <returns>An instance of <see cref="SkyfishHttpService"/>.</returns>
         /// <exception cref="ArgumentNullException">If any parameter is null, empty or white space.</exception>
         public static SkyfishHttpService CreateFromKeys(string publicKey, string secretKey, string username, string password) {
+
+            // Input validation
             if (string.IsNullOrWhiteSpace(publicKey)) throw new ArgumentNullException(nameof(publicKey));
             if (string.IsNullOrWhiteSpace(secretKey)) throw new ArgumentNullException(nameof(secretKey));
             if (string.IsNullOrWhiteSpace(username)) throw new ArgumentNullException(nameof(username));
             if (string.IsNullOrWhiteSpace(password)) throw new ArgumentNullException(nameof(password));
-            return new SkyfishHttpService(new SkyfishHttpClient(publicKey, secretKey, username, password));
+
+            // Initialize a new HTTP client
+            SkyfishHttpClient client = new(publicKey, secretKey, username, password);
+
+            // Get a new token from the specified parameters
+            client.Token = client.GetToken().Body.Token;
+
+            // Return a new HTTP service wrapping the client
+            return new SkyfishHttpService(client);
+
+        }
+
+        /// <summary>
+        /// Creates and returns a new instance based on the specified <paramref name="client"/>.
+        /// </summary>
+        /// <param name="client">The HTTP client to be wrapped.</param>
+        /// <returns>An instance of <see cref="SkyfishHttpService"/>.</returns>
+        /// <exception cref="ArgumentNullException">If <paramref name="client"/> is null.</exception>
+        public static SkyfishHttpService CreateFromClient(SkyfishHttpClient client) {
+
+            // Input validation
+            if (client is null) throw new ArgumentNullException(nameof(client));
+
+            // Return a new HTTP service wrapping the client
+            return new SkyfishHttpService(client);
+
         }
 
         #endregion
