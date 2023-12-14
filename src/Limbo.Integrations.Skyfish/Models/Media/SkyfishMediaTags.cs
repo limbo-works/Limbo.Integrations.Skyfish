@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 #pragma warning disable CS1591
@@ -11,7 +10,7 @@ namespace Limbo.Integrations.Skyfish.Models.Media {
     /// <summary>
     /// Class describing the tags (Exif data) of a Skyfish media.
     /// </summary>
-    public class SkyfishMediaTags : JsonObjectBase {
+    public class SkyfishMediaTags : SkyfishObject {
 
         #region Properties
 

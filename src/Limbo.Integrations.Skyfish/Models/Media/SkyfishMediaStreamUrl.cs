@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json.Linq;
 using System.Diagnostics.CodeAnalysis;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Integrations.Skyfish.Models.Media {
@@ -8,7 +7,7 @@ namespace Limbo.Integrations.Skyfish.Models.Media {
     /// <summary>
     /// Class with information about the stream URL of a Skyfish media.
     /// </summary>
-    public class SkyfishMediaStreamUrl : JsonObjectBase {
+    public class SkyfishMediaStreamUrl : SkyfishObject {
 
         #region Properties
 

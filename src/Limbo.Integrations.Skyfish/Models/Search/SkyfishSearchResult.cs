@@ -2,7 +2,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Limbo.Integrations.Skyfish.Models.Media;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Integrations.Skyfish.Models.Search {
@@ -10,7 +9,7 @@ namespace Limbo.Integrations.Skyfish.Models.Search {
     /// <summary>
     /// Class representing the result of a media search.
     /// </summary>
-    public class SkyfishSearchResult : JsonObjectBase {
+    public class SkyfishSearchResult : SkyfishObject {
 
         #region Properties
 

@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Essentials.Time;
 
@@ -9,7 +8,7 @@ namespace Limbo.Integrations.Skyfish.Models.Folders {
     /// <summary>
     /// Class representing a Skyfish folder item.
     /// </summary>
-    public class SkyfishFolderItem : JsonObjectBase {
+    public class SkyfishFolderItem : SkyfishObject {
 
         #region Properties
 

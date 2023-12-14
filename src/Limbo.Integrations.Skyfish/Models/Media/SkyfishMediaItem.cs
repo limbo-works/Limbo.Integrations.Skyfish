@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Newtonsoft;
 using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 
 namespace Limbo.Integrations.Skyfish.Models.Media {
@@ -9,7 +8,7 @@ namespace Limbo.Integrations.Skyfish.Models.Media {
     /// <summary>
     /// Class representing a Skyfish media item.
     /// </summary>
-    public class SkyfishMediaItem : JsonObjectBase {
+    public class SkyfishMediaItem : SkyfishObject {
 
         #region Properties
 

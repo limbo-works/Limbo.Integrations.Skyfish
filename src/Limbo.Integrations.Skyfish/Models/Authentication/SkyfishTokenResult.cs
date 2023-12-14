@@ -8,7 +8,7 @@ namespace Limbo.Integrations.Skyfish.Models.Authentication {
     /// <summary>
     /// Class representing the result of a token authentication request.
     /// </summary>
-    public class SkyfishTokenResult {
+    public class SkyfishTokenResult : SkyfishObject {
 
         #region Properties
 
@@ -22,7 +22,7 @@ namespace Limbo.Integrations.Skyfish.Models.Authentication {
         /// </summary>
         public EssentialsTime ValidUntil { get; }
 
-        private SkyfishTokenResult(JObject json) {
+        private SkyfishTokenResult(JObject json) : base(json) {
             ValidUntil = json.GetInt64("validUntil", EssentialsTime.FromUnixTimeSeconds)!;
             Token = json.GetString("token")!;
         }
