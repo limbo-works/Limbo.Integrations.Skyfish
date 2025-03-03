@@ -1,6 +1,13 @@
 ﻿# Limbo.Integrations.Skyfish
 
+[![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/limbo-works/Limbo.Integrations.Skyfish/blob/v1/main/LICENSE.md)
+[![NuGet](https://img.shields.io/nuget/v/Limbo.Integrations.Skyfish.svg)](https://www.nuget.org/packages/Limbo.Integrations.Skyfish)
+[![NuGet](https://img.shields.io/nuget/dt/Limbo.Integrations.Skyfish.svg)](https://www.nuget.org/packages/Limbo.Integrations.Skyfish)
+[![Limbo.Integrations.Skyfish at packages.limbo.works](https://img.shields.io/badge/limbo-packages-blue)](https://packages.limbo.works/limbo.integrations.skyfish/)
+
 API wrapper and integration package for the [Skyfish API](https://api.skyfish.com/).
+
+<br /><br />
 
 ## Installation
 
