@@ -1,4 +1,5 @@
-﻿using Limbo.Integrations.Skyfish.Endpoints;
+﻿using System.Threading.Tasks;
+using Limbo.Integrations.Skyfish.Endpoints;
 using Limbo.Integrations.Skyfish.Responses.Authentication;
 using Newtonsoft.Json.Linq;
 using Skybrud.Essentials.Common;
@@ -122,6 +123,41 @@ public class SkyfishHttpClient : HttpClient {
 
         // Authenticate with Skyfish
         IHttpResponse response = HttpUtils.Requests.Post("https://api.colourbox.com/authenticate/userpasshmac", body);
+
+        // Return the strongly typed response
+        return new SkyfishTokenResponse(response);
+
+    }
+
+    /// <summary>
+    /// Returns a new token based on the <see cref="PublicKey"/>, <see cref="SecretKey"/>, <see cref="Username"/>
+    /// and <see cref="Password"/> properties.
+    /// </summary>
+    /// <returns>An instance of <see cref="SkyfishTokenResponse"/> with information about the token.</returns>
+    public async Task<SkyfishTokenResponse> GetTokenAsync() {
+
+        if (string.IsNullOrWhiteSpace(PublicKey)) throw new PropertyNotSetException(nameof(PublicKey));
+        if (string.IsNullOrWhiteSpace(SecretKey)) throw new PropertyNotSetException(nameof(SecretKey));
+        if (string.IsNullOrWhiteSpace(Username)) throw new PropertyNotSetException(nameof(Username));
+        if (string.IsNullOrWhiteSpace(Password)) throw new PropertyNotSetException(nameof(Password));
+
+        // HMAC hash needed for authing with Skyfish - https://api.skyfish.com/#sectionHead-21
+        int unixTimestamp = (int) UnixTimeUtils.CurrentSeconds;
+        string hmac = SecurityUtils.GetHmacSha1Hash(SecretKey!, $"{PublicKey}:{unixTimestamp}");
+
+        // Initialize the request body
+        JObject body = new() {
+            ["username"] = Username,
+            ["password"] = Password,
+            ["key"] = PublicKey,
+            ["ts"] = unixTimestamp,
+            [nameof(hmac)] = hmac.ToLower()
+        };
+
+        // Authenticate with Skyfish
+        IHttpResponse response = await HttpRequest
+            .Post("https://api.colourbox.com/authenticate/userpasshmac", body)
+            .GetResponseAsync();
 
         // Return the strongly typed response
         return new SkyfishTokenResponse(response);

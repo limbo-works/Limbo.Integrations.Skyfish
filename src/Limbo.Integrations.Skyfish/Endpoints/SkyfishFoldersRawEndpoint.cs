@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Limbo.Integrations.Skyfish.Http;
 using Limbo.Integrations.Skyfish.Options.Folders;
 using Skybrud.Essentials.Http;
@@ -40,12 +41,31 @@ public class SkyfishFoldersRawEndpoint {
     }
 
     /// <summary>
+    /// Returns a list of folders matching the specified <paramref name="options"/>.
+    /// </summary>
+    /// <param name="options">The options for the request to the API.</param>
+    /// <returns>An instance of <see cref="IHttpResponse"/> representing the raw response.</returns>
+    public async Task<IHttpResponse> SearchAsync(SkyfishSearchFoldersOptions options) {
+        if (options == null) throw new ArgumentNullException(nameof(options));
+        return await Client.GetResponseAsync(options);
+    }
+
+    /// <summary>
     /// Returns information about the folder with the specified <paramref name="folderId"/>.
     /// </summary>
     /// <param name="folderId">The ID of the folder.</param>
     /// <returns>An instance of <see cref="IHttpResponse"/> representing the raw response.</returns>
     public IHttpResponse GetFolder(int folderId) {
         return Client.Get($"/folder/{folderId}");
+    }
+
+    /// <summary>
+    /// Returns information about the folder with the specified <paramref name="folderId"/>.
+    /// </summary>
+    /// <param name="folderId">The ID of the folder.</param>
+    /// <returns>An instance of <see cref="IHttpResponse"/> representing the raw response.</returns>
+    public async Task<IHttpResponse> GetFolderAsync(int folderId) {
+        return await Client.GetAsync($"/folder/{folderId}");
     }
 
     #endregion

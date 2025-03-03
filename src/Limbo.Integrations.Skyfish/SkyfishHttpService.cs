@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Limbo.Integrations.Skyfish.Endpoints;
 using Limbo.Integrations.Skyfish.Http;
 
@@ -52,7 +53,7 @@ public class SkyfishHttpService {
     /// <param name="token">The token for accessing the API.</param>
     /// <returns>An instance of <see cref="SkyfishHttpService"/>.</returns>
     /// <exception cref="ArgumentNullException">If <paramref name="token"/> is null, empty or white space.</exception>
-    public static SkyfishHttpService CreateFromKeys(string token) {
+    public static SkyfishHttpService CreateFromToken(string token) {
 
         // Input validation
         if (string.IsNullOrWhiteSpace(token)) throw new ArgumentNullException(nameof(token));
@@ -87,6 +88,34 @@ public class SkyfishHttpService {
 
         // Get a new token from the specified parameters
         client.Token = client.GetToken().Body.Token;
+
+        // Return a new HTTP service wrapping the client
+        return new SkyfishHttpService(client);
+
+    }
+
+    /// <summary>
+    /// Creates and returns a new instance based on the specified <paramref name="publicKey"/>, <paramref name="secretKey"/>, <paramref name="username"/> and <paramref name="password"/>.
+    /// </summary>
+    /// <param name="publicKey">The public key.</param>
+    /// <param name="secretKey">The secret key.</param>
+    /// <param name="username">The username.</param>
+    /// <param name="password">The password.</param>
+    /// <returns>An instance of <see cref="SkyfishHttpService"/>.</returns>
+    /// <exception cref="ArgumentNullException">If any parameter is null, empty or white space.</exception>
+    public static async Task<SkyfishHttpService> CreateFromKeysAsync(string publicKey, string secretKey, string username, string password) {
+
+        // Input validation
+        if (string.IsNullOrWhiteSpace(publicKey)) throw new ArgumentNullException(nameof(publicKey));
+        if (string.IsNullOrWhiteSpace(secretKey)) throw new ArgumentNullException(nameof(secretKey));
+        if (string.IsNullOrWhiteSpace(username)) throw new ArgumentNullException(nameof(username));
+        if (string.IsNullOrWhiteSpace(password)) throw new ArgumentNullException(nameof(password));
+
+        // Initialize a new HTTP client
+        SkyfishHttpClient client = new(publicKey, secretKey, username, password);
+
+        // Get a new token from the specified parameters
+        client.Token = (await client.GetTokenAsync()).Body.Token;
 
         // Return a new HTTP service wrapping the client
         return new SkyfishHttpService(client);

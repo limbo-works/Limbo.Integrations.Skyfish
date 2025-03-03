@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Limbo.Integrations.Skyfish.Http;
 using Limbo.Integrations.Skyfish.Options.Search;
 using Skybrud.Essentials.Http;
@@ -37,6 +38,16 @@ public class SkyfishSearchRawEndpoint {
     public IHttpResponse Search(SkyfishSearchOptions options) {
         if (options == null) throw new ArgumentNullException(nameof(options));
         return Client.GetResponse(options);
+    }
+
+    /// <summary>
+    /// Returns a list of media items matching the specified search <paramref name="options"/>.
+    /// </summary>
+    /// <param name="options">The options for the request to the API.</param>
+    /// <returns>An instance of <see cref="IHttpResponse"/> representing the raw response.</returns>
+    public async Task<IHttpResponse> SearchAsync(SkyfishSearchOptions options) {
+        if (options == null) throw new ArgumentNullException(nameof(options));
+        return await Client.GetResponseAsync(options);
     }
 
     #endregion

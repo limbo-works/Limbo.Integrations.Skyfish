@@ -1,4 +1,5 @@
-﻿using Limbo.Integrations.Skyfish.Options.Search;
+﻿using System.Threading.Tasks;
+using Limbo.Integrations.Skyfish.Options.Search;
 using Limbo.Integrations.Skyfish.Responses.Search;
 
 namespace Limbo.Integrations.Skyfish.Endpoints;
@@ -39,6 +40,15 @@ public class SkyfishSearchEndpoint {
     /// <returns>An instance of <see cref="SkyfishSearchResponse"/> representing the response.</returns>
     public SkyfishSearchResponse Search(SkyfishSearchOptions options) {
         return new SkyfishSearchResponse(Raw.Search(options));
+    }
+
+    /// <summary>
+    /// Returns a list of media items matching the specified search <paramref name="options"/>.
+    /// </summary>
+    /// <param name="options">The options for the request to the API.</param>
+    /// <returns>An instance of <see cref="SkyfishSearchResponse"/> representing the response.</returns>
+    public async Task<SkyfishSearchResponse> SearchAsync(SkyfishSearchOptions options) {
+        return new SkyfishSearchResponse(await Raw.SearchAsync(options));
     }
 
     #endregion
