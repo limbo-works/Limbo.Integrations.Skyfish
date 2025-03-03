@@ -7,7 +7,7 @@ using Skybrud.Essentials.Http.Collections;
 using Skybrud.Essentials.Http.Options;
 using Skybrud.Essentials.Strings.Extensions;
 
-namespace Limbo.Integrations.Skyfish.Options.Search; 
+namespace Limbo.Integrations.Skyfish.Options.Search;
 
 /// <summary>
 /// Class with options for getting a list of videos.
@@ -129,7 +129,7 @@ public class SkyfishSearchOptions : IHttpRequestOptions {
         if (Direction is not null) query.Add("direction", Direction.Value == SkyfishSortOrder.Ascending ? "asc" : "desc");
 
         // The documentation says to split the values with +, but the API doesn't support URL encoded + chars
-        // Instead we can split by space and it turns into ASCII + chars ¯\(º_o)/¯
+        // Instead we can split by space, and it turns into ASCII + chars ¯\(º_o)/¯
         if (ReturnValues is { Count: > 0 }) query.Add("return_values", string.Join(" ", ReturnValues));
         if (MediaTypes is { Count: > 0 }) query.Add("media_type", string.Join(" ", from type in MediaTypes select type.ToUnderscore()));
 

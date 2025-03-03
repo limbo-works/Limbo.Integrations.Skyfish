@@ -56,7 +56,7 @@ public class SkyfishFolderItem : SkyfishObject {
     /// </summary>
     /// <param name="json">The JSON object representing the folder item.</param>
     /// <returns>An instance of <see cref="SkyfishFolderItem"/>.</returns>
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static SkyfishFolderItem? Parse(JObject? json) {
         return json == null ? null : new SkyfishFolderItem(json);
     }

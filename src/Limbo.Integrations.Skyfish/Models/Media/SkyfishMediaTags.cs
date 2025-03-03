@@ -27,14 +27,14 @@ public class SkyfishMediaTags : SkyfishObject {
     #endregion
 
     protected SkyfishMediaTags(JObject json) : base(json) {
-        ExifTool = json.GetObject<Dictionary<string, object>>("ExifTool");
-        Composite = json.GetObject<Dictionary<string, object>>("Composite");
-        SourceFile = json.GetString("SourceFile")!;
-        QuickTime = json.GetObject<Dictionary<string, object>>("QuickTime");
-        File = json.GetObject<Dictionary<string, object>>("File");
+        ExifTool = json.GetObject<Dictionary<string, object>>(nameof(ExifTool));
+        Composite = json.GetObject<Dictionary<string, object>>(nameof(Composite));
+        SourceFile = json.GetString(nameof(SourceFile))!;
+        QuickTime = json.GetObject<Dictionary<string, object>>(nameof(QuickTime));
+        File = json.GetObject<Dictionary<string, object>>(nameof(File));
     }
 
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static SkyfishMediaTags? Parse(JObject? json) {
         return json == null ? null : new SkyfishMediaTags(json);
     }

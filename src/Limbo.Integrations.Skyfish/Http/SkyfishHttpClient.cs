@@ -117,7 +117,7 @@ public class SkyfishHttpClient : HttpClient {
             ["password"] = Password,
             ["key"] = PublicKey,
             ["ts"] = unixTimestamp,
-            ["hmac"] = hmac.ToLower()
+            [nameof(hmac)] = hmac.ToLower()
         };
 
         // Authenticate with Skyfish

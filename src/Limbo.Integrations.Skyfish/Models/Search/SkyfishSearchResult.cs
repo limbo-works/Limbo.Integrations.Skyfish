@@ -41,7 +41,7 @@ public class SkyfishSearchResult : SkyfishObject {
     /// </summary>
     /// <param name="json">The JSON object representing the search result.</param>
     /// <returns>An instance of <see cref="SkyfishMediaItem"/>.</returns>
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static SkyfishSearchResult? Parse(JObject? json) {
         return json == null ? null : new SkyfishSearchResult(json);
     }

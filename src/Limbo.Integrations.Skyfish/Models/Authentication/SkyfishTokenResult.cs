@@ -36,7 +36,7 @@ public class SkyfishTokenResult : SkyfishObject {
     /// </summary>
     /// <param name="json">The JSON object representing the result.</param>
     /// <returns>An instance of <see cref="SkyfishTokenResult"/>.</returns>
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static SkyfishTokenResult? Parse(JObject? json) {
         return json == null ? null : new SkyfishTokenResult(json);
     }

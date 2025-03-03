@@ -72,7 +72,7 @@ public class SkyfishMediaRawEndpoint {
     /// <remarks>
     /// Calling this method will only start the creating of the stream. If this step is successful, the API
     /// responds with a <see cref="HttpStatusCode.Created"/> response. After this, the <see cref="GetStreamUrl"/>
-    /// can be used to check whether a stream URL is available - eg. by checking each second until available.
+    /// can be used to check whether a stream URL is available - e.g. by checking each second until available.
     ///
     /// If this method is called, but a stream already exist, the API will return a
     /// <see cref="HttpStatusCode.Conflict"/> response.

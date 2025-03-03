@@ -70,7 +70,7 @@ public class SkyfishHttpHelper {
             // Make the initial request to see whether a stream URL already exist
             SkyfishMediaStreamUrlResponse response = Service.Media.GetStreamUrl(uniqueMediaId);
 
-            // If it exist, we can return it right away
+            // If it exists, we can return it right away
             if (!string.IsNullOrWhiteSpace(response.Body.Stream)) return response.Body.Stream;
 
         } catch (SkyfishHttpException ex) when (ex.StatusCode == HttpStatusCode.NotFound) {
@@ -82,13 +82,13 @@ public class SkyfishHttpHelper {
 
         for (int i = 0; i < retryCount; i++) {
 
-            // Sleep for a bit so we don't spam the API
+            // Sleep for a bit, so we don't spam the API
             Thread.Sleep(delay);
 
             // Make the initial request to see whether a stream URL already exist
             SkyfishMediaStreamUrlResponse response = Service.Media.GetStreamUrl(uniqueMediaId);
 
-            // If it exist, we can return it right away
+            // If it exists, we can return it right away
             if (!string.IsNullOrWhiteSpace(response.Body.Stream)) return response.Body.Stream;
 
         }
@@ -98,7 +98,7 @@ public class SkyfishHttpHelper {
     }
 
     /// <summary>
-    /// Returns the media media item with the specified <paramref name="mediaId"/>, or <see langword="null"/> if not found.
+    /// Returns the media item with the specified <paramref name="mediaId"/>, or <see langword="null"/> if not found.
     /// </summary>
     /// <param name="mediaId">The ID of the media.</param>
     /// <returns>An instance of <see cref="SkyfishMediaItem"/> if successful; otherwise, <see langword="null"/>.</returns>
@@ -115,7 +115,7 @@ public class SkyfishHttpHelper {
     }
 
     /// <summary>
-    /// Returns the media media item with the specified <paramref name="uniqueMediaId"/>, or <see langword="null"/> if not found.
+    /// Returns the media item with the specified <paramref name="uniqueMediaId"/>, or <see langword="null"/> if not found.
     /// </summary>
     /// <param name="uniqueMediaId">The unique ID of the media.</param>
     /// <returns>An instance of <see cref="SkyfishMediaItem"/> if successful; otherwise, <see langword="null"/>.</returns>

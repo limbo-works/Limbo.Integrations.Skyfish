@@ -23,7 +23,7 @@ public class SkyfishMediaItem : SkyfishObject {
     public int UniqueMediaId { get; }
 
     /// <summary>
-    /// Gets the media type of the media - eg. <see cref="SkyfishMediaType.Image"/> or <see cref="SkyfishMediaType.Video"/>.
+    /// Gets the media type of the media - e.g. <see cref="SkyfishMediaType.Image"/> or <see cref="SkyfishMediaType.Video"/>.
     /// </summary>
     public SkyfishMediaType? MediaType { get; }
 
@@ -110,7 +110,7 @@ public class SkyfishMediaItem : SkyfishObject {
     /// </summary>
     /// <param name="json">The JSON object representing the media item.</param>
     /// <returns>An instance of <see cref="SkyfishMediaItem"/>.</returns>
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static SkyfishMediaItem? Parse(JObject? json) {
         return json == null ? null : new SkyfishMediaItem(json);
     }

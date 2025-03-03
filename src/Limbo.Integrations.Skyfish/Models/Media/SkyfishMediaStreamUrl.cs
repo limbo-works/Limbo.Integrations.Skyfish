@@ -23,7 +23,7 @@ public class SkyfishMediaStreamUrl : SkyfishObject {
     /// </summary>
     /// <param name="json">The JSON object representing the media item.</param>
     protected SkyfishMediaStreamUrl(JObject json) : base(json) {
-        Stream = json.GetString("Stream");
+        Stream = json.GetString(nameof(Stream));
     }
 
     /// <summary>
@@ -31,7 +31,7 @@ public class SkyfishMediaStreamUrl : SkyfishObject {
     /// </summary>
     /// <param name="json">The JSON object representing the stream URL.</param>
     /// <returns>An instance of <see cref="SkyfishMediaStreamUrl"/>.</returns>
-    [return: NotNullIfNotNull("json")]
+    [return: NotNullIfNotNull(nameof(json))]
     public static SkyfishMediaStreamUrl? Parse(JObject? json) {
         return json == null ? null : new SkyfishMediaStreamUrl(json);
     }

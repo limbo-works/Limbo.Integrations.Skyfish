@@ -2,7 +2,7 @@
 using Skybrud.Essentials.Http;
 using Skybrud.Essentials.Http.Options;
 
-namespace Limbo.Integrations.Skyfish.Options.Media; 
+namespace Limbo.Integrations.Skyfish.Options.Media;
 
 /// <summary>
 /// Class with options for listing the tags (Efix data) of a media.
