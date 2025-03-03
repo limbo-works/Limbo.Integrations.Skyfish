@@ -1,13 +1,13 @@
 ﻿# Limbo.Integrations.Skyfish
 
-Integration package with the [Skyfish API](https://api.skyfish.com/).
+API wrapper and integration package for the [Skyfish API](https://api.skyfish.com/).
 
 ## Installation
 
 Install via [NuGet](https://www.nuget.org/packages/Limbo.Integrations.Skyfish/):
 
 ```
-Install-Package Limbo.Integrations.Skyfish -Version 1.0.0-beta004
+Install-Package Limbo.Integrations.Skyfish -Version 1.0.0
 ```
 
 ## Getting started
