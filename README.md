@@ -17,6 +17,8 @@ Install via [NuGet](https://www.nuget.org/packages/Limbo.Integrations.Skyfish/):
 Install-Package Limbo.Integrations.Skyfish -Version 1.0.0
 ```
 
+<br /><br />
+
 ## Getting started
 
 The entry point to accessing the Skyfish API is the `SkyfishHttpService` class. Accessing the API requires a public key, secret key, username and password - if you have those already, you can create a new `SkyfishHttpService` like this:
