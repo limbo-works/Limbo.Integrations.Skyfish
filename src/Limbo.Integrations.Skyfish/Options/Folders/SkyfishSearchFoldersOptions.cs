@@ -21,7 +21,7 @@ public class SkyfishSearchFoldersOptions : IHttpRequestOptions {
     /// <summary>
     /// Limit the list to the folder(s) that has the given ID(s).
     /// </summary>
-    public List<int> Ids { get; set; } = new();
+    public List<int> Ids { get; set; } = [];
 
     /// <summary>
     /// Limit the list to folders with the parent ID specified.

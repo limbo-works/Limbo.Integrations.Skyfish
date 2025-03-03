@@ -14,15 +14,15 @@ public class SkyfishMediaTags : SkyfishObject {
 
     #region Properties
 
-    public Dictionary<string, object>? ExifTool { get; }
+    public IReadOnlyDictionary<string, object>? ExifTool { get; }
 
-    public Dictionary<string, object>? Composite { get; }
+    public IReadOnlyDictionary<string, object>? Composite { get; }
 
     public string SourceFile { get; }
 
-    public Dictionary<string, object>? QuickTime { get; }
+    public IReadOnlyDictionary<string, object>? QuickTime { get; }
 
-    public Dictionary<string, object>? File { get; }
+    public IReadOnlyDictionary<string, object>? File { get; }
 
     #endregion
 
