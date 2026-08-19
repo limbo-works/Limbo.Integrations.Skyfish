@@ -3,7 +3,7 @@
 namespace Limbo.Integrations.Skyfish.Models.Media;
 
 /// <summary>
-/// Enum class representing the type of a SKyfish media.
+/// Enum class representing the type of Skyfish media.
 /// </summary>
 public enum SkyfishMediaType {
 

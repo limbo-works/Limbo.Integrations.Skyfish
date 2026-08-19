@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json.Linq;
-using Skybrud.Essentials.Json.Extensions;
+using Skybrud.Essentials.Json.Newtonsoft.Extensions;
 using Skybrud.Essentials.Time;
 
 namespace Limbo.Integrations.Skyfish.Models.Authentication;
@@ -18,13 +18,13 @@ public class SkyfishTokenResult : SkyfishObject {
     public string Token { get; }
 
     /// <summary>
-    /// Gets an instance of <see cref="EssentialsTime"/> representing the date and time when the token epxires.
+    /// Gets an instance of <see cref="EssentialsTime"/> representing the date and time when the token expires.
     /// </summary>
     public EssentialsTime ValidUntil { get; }
 
     private SkyfishTokenResult(JObject json) : base(json) {
-        ValidUntil = json.GetInt64("validUntil", EssentialsTime.FromUnixTimeSeconds)!;
-        Token = json.GetString("token")!;
+        ValidUntil = json.GetRequiredInt64("validUntil", EssentialsTime.FromUnixTimeSeconds);
+        Token = json.GetRequiredString("token");
     }
 
     #endregion
