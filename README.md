@@ -14,7 +14,7 @@ API wrapper and integration package for the [Skyfish API](https://api.skyfish.co
 Install via [NuGet](https://www.nuget.org/packages/Limbo.Integrations.Skyfish/):
 
 ```
-Install-Package Limbo.Integrations.Skyfish -Version 1.0.0
+Install-Package Limbo.Integrations.Skyfish -Version 1.0.1
 ```
 
 <br /><br />
