@@ -38,7 +38,7 @@ public class SkyfishHttpClient : HttpClient {
     public string? Password { get; set; }
 
     /// <summary>
-    /// Gets or sets the token used for accessing the SKyfish API.
+    /// Gets or sets the token used for accessing the Skyfish API.
     /// </summary>
     public string? Token { get; set; }
 
