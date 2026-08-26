@@ -26,6 +26,14 @@
     <RepositoryUrl>https://github.com/limbo-works/Limbo.Integrations.Skyfish</RepositoryUrl>
   </PropertyGroup>
 
+  <!-- Include additional metadata in the assembly -->
+  <ItemGroup>
+    <AssemblyMetadata Include="Authors" Value="$(Authors)" />
+    <AssemblyMetadata Include="PackageProjectUrl" Value="https://packages.limbo.works/limbo.integrations.skyfish/" />
+    <AssemblyMetadata Include="DocumentationUrl" Value="https://packages.limbo.works/limbo.integrations.skyfish/docs/" />
+    <AssemblyMetadata Include="NuGetUrl" Value="https://www.nuget.org/packages/Limbo.Integrations.Skyfish" />
+  </ItemGroup>
+
   <!-- Include NuGet dependencies -->
   <ItemGroup>
     <PackageReference Include="Nullable" Version="1.3.1" PrivateAssets="all" />
